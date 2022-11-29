@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Animated, Modal } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Icon, TouchableOpacity, Animated, Modal } from 'react-native'
 import React, { useState } from 'react'
 import data from '../services/QuizData'
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export function Quiz() {
 
@@ -23,10 +24,12 @@ export function Quiz() {
         //setscore
         if(selectedoption == correct_option){
             setScore(score + 1)
+            
         }
-
-        //show next btn
         setShowNextButton(true)
+        
+        //show next btn
+        
     }
 
     const handleNext = () => {
@@ -69,13 +72,14 @@ export function Quiz() {
             <View style={{
                 marginVertical: 40
             }}>
+                {/* Questions Counter */}
                 <View style={{flexDirection:'row', alignItems:'flex-end'}}>
-                    <Text>{currQuestionIndex + 1}</Text>
-                    <Text>{allQuestions.length}</Text>
+                    <Text style={styles.textCurrQuestion}>{currQuestionIndex + 1}</Text>
+                    <Text style={styles.textLengthQuestion}> / {allQuestions.length}</Text>
                 </View>
         
                 {/* Questions */}
-                <Text>{allQuestions[currQuestionIndex]?.question}</Text>
+                <Text style={styles.textAllQuestion}>{allQuestions[currQuestionIndex]?.question}</Text>
 
             </View>
         )
@@ -88,24 +92,46 @@ export function Quiz() {
                     allQuestions[currQuestionIndex]?.options.map(option => (
                         <TouchableOpacity
                             key={option}
-                            style={styles.options}
                             onPress={() => validateAns(option)}
+                            disabled={isOptionDisables}
+                            style={
+                                {
+                                    borderColor : option == correctOption
+                                    ? '#00C851'
+                                    : option == currOptionSelected
+                                    ? '#ff4444'
+                                    : '#1E90FF' + '40',
+                                    backgroundColor: option == correctOption
+                                    ? '#00C851' + '20'
+                                    : option == currOptionSelected
+                                    ? '#ff4444' + '20'
+                                    : '#1E90FF' + '20',
+                                    height : 60,
+                                    flexDirection : 'row',
+                                    alignItems : 'center',
+                                    paddingHorizontal : 20,
+                                    marginVertical : 10,
+                                    borderWidth : 3,
+                                    borderRadius : 16,
+                                    justifyContent : 'space-between'
+                                }
+                            }
+                            
                         >
-                            <Text>{option}</Text>
+                            <Text style={styles.textOptions}>{option}</Text>
 
                             {/* Show answer tru or false */}
                             {
                                 option == correctOption ? (
-                                    <View style={{width : 30, height : 30, borderRadius : 10, justifyContent : 'center', alignItems : 'center', backgroundColor : 'green'}}>
-                                        {/* <MaterialCommunityIcons name='check' style={{fontSize : 20, color : 'white'}} /> */}
+                                    <View style={styles.answerCorerct}>
+                                                    <MaterialCommunityIcons name='check' style={styles.icons}></MaterialCommunityIcons>
                                     </View>
                                 ) : option == currOptionSelected ? (
-                                    <View style={{width : 30, height : 30, borderRadius : 10, justifyContent : 'center', alignItems : 'center', backgroundColor : 'red'}}>
-                                    {/* <MaterialCommunityIcons name='close' style={{fontSize : 20, color : 'white'}} /> */}
+                                    <View style={styles.answerWrong}>
+                                    <MaterialCommunityIcons name='close' style={styles.icons} />
                                     </View>  
                                 ) : null
                             }
-
                         </TouchableOpacity>
                     ))
                 }
@@ -118,9 +144,11 @@ export function Quiz() {
             return (
                 <TouchableOpacity
                 onPress={handleNext}
-                    style={{marginTop : 20, width : '100%', padding : 20, borderRadius : 5}}
+                    style={styles.nextBtn}
                 >
-                    <Text>Next</Text>
+                    <Text style={styles.textNext}>
+                        Next {'>'} 
+                    </Text>
                 </TouchableOpacity>
             )
         } else {
@@ -136,12 +164,8 @@ export function Quiz() {
 
     const renderProgressBar = () => {
         return (
-            <View>
-                <Animated.View style={[{
-                    height : 20,
-                     borderRadius : 20,
-                     backgroundColor : 'blue'
-                },{
+            <View style={styles.progressBar}>
+                <Animated.View style={[styles.animatedProgress,{
                     width : progressAnim
                 }]}>
 
@@ -151,9 +175,8 @@ export function Quiz() {
     }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex : 1}}>
         <View style={styles.container}>
-            <Text>Quiz</Text>
 
             {/* Progress Bar */}
             {renderProgressBar()}
@@ -173,43 +196,22 @@ export function Quiz() {
             transparent= {true}
             visible = {showScoreModal}
             >
-                <View style={{
-                    flex : 1,
-                    backgroundColor : 'blue',
-                    alignItems : 'center',
-                    justifyContent : 'center'
-                }}>
-                    <View style={{
-                        backgroundColor : 'white',
-                        width : '90%',
-                        borderRadius : 20,
-                        padding : 20,
-                        alignItems : 'center'
-                    }}>
-                        <Text>{score > (allQuestions.length/2) ? 'Congrats!' : 'Oops!'}</Text>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                        <Text style={{fontSize: 30, fontWeight: 'bold'}}>{score > (allQuestions.length/2) ? 'Congrats!' : 'Oops!'}</Text>
 
-                        <View style={{
-                               flexDirection: 'row',
-                               justifyContent: 'flex-start',
-                               alignItems: 'center',
-                               marginVertical: 20
-                           }}>
-                            <Text>{score}</Text>
-                            <Text>{ allQuestions.length }</Text>
+                        <View style={styles.modalQuestions}>
+                            <Text style={{fontSize : 30, color: score >(allQuestions.length/2) ? '#00C851' : '#ff4444'}}>{score}</Text>
+                            <Text style={styles.textNext}> / { allQuestions.length }</Text>
                         </View>
 
                         {/* Retry quiz Button */}
-                        <TouchableOpacity onPress={restartQuiz} style={{
-                            padding: 20, width: '100%', borderRadius: 20, backgroundColor : 'blue'
-                        }}>
-                            <Text>Retry Quiz</Text>
+                        <TouchableOpacity onPress={restartQuiz} style={styles.retryContainer}>
+                            <Text style={styles.textRetry}>Retry Quiz</Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
             </Modal>
-
         </View>
     </SafeAreaView>
   )
@@ -217,13 +219,105 @@ export function Quiz() {
 
 const styles = StyleSheet.create({
     container : {
+        paddingVertical: 20,
+        marginHorizontal: 10,
     },
-    options : {
-        height : 60,
-        flexDirection : 'row',
+    textOptions : {
+        fontSize : 20,
+        color : 'black',
+        display : 'flex',
+        justifyContent  : 'space-between'
+    },
+    textCurrQuestion : {
+        color : 'grey',
+        fontSize : 20,
+        opacity: 0.6,
+        marginRight: 2
+    },
+    textLengthQuestion : {
+        color: 'grey',
+        fontSize : 18,
+        opacity: 0.6
+    },
+    textAllQuestion: {
+        color : 'black',
+        fontSize: 30
+    },
+    answerCorerct : {
+        width : 30,
+        height : 30,
+        borderRadius : 20,
+        justifyContent : 'center',
         alignItems : 'center',
-        paddingHorizontal : 10,
-        marginVertical : 10
-
+        backgroundColor : '#00C851',
+        marginLeft : 5,
+    },
+    answerWrong : {
+        width : 30, 
+        height : 30, 
+        borderRadius : 20,
+        justifyContent : 'center', 
+        alignItems : 'center',
+        backgroundColor : '#ff4444', 
+        marginLeft : 5
+    },
+    icons : {
+        color : 'white',
+        fontSize : 20,
+        
+    },
+    nextBtn : {
+        marginTop : 20, 
+        width : '100%', 
+        padding : 20, 
+        borderRadius : 5, 
+        display : 'flex', 
+        flexDirection : 'row', 
+        justifyContent : 'flex-end', 
+        alignItems : 'center'
+    },
+    textNext : {
+        fontSize: 20, color: 'black'
+    }, 
+    progressBar : {
+        width : '100%', 
+        height: 20, 
+        borderRadius : 20, 
+        backgroundColor : '#00000020'
+    },
+    animatedProgress : {
+        height : 20,
+        borderRadius : 20,
+        backgroundColor : '#3498db'
+    },
+    modalContainer : {
+        flex : 1,
+        backgroundColor : '#1E90FF',
+        alignItems : 'center',
+        justifyContent : 'center'
+    },
+    modalView : {
+        backgroundColor : 'white',
+        width : '90%',
+        borderRadius : 20,
+        padding : 20,
+        alignItems : 'center'
+    },
+    modalQuestions : {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginVertical: 20
+    },
+    retryContainer : {
+        padding: 20,
+        width: '100%',
+        borderRadius: 20,
+        backgroundColor : '#3498db'
+    },
+    textRetry : {
+        textAlign: 'center',
+        color: 'white',
+        fontSize: 20
     }
 })
