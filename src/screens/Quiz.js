@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Icon, TouchableOpacity, Animated, Modal } from 'react-native'
 import React, { useState } from 'react'
 import data from '../services/QuizData'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export function Quiz() {
