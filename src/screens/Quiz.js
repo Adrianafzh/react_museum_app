@@ -94,7 +94,7 @@ export function Quiz() {
                             onPress={() => validateAns(option)}
                             disabled={isOptionDisables}
                             style={
-                                {
+                                [ styles.optionAnswer ,{
                                     borderColor : option == correctOption
                                     ? '#00C851'
                                     : option == currOptionSelected
@@ -104,16 +104,8 @@ export function Quiz() {
                                     ? '#00C851' + '20'
                                     : option == currOptionSelected
                                     ? '#ff4444' + '20'
-                                    : '#1E90FF' + '20',
-                                    height : 60,
-                                    flexDirection : 'row',
-                                    alignItems : 'center',
-                                    paddingHorizontal : 20,
-                                    marginVertical : 10,
-                                    borderWidth : 3,
-                                    borderRadius : 16,
-                                    justifyContent : 'space-between'
-                                }
+                                    : '#1E90FF' + '20', 
+                                }]
                             }
                             
                         >
@@ -226,6 +218,16 @@ const styles = StyleSheet.create({
         color : 'black',
         display : 'flex',
         justifyContent  : 'space-between'
+    },
+    optionAnswer : {
+        height : 60,
+        flexDirection : 'row',
+        alignItems : 'center',
+        paddingHorizontal : 20,
+        marginVertical : 10,
+        borderWidth : 3,
+        borderRadius : 16,
+        justifyContent : 'space-between'
     },
     textCurrQuestion : {
         color : 'grey',
