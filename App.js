@@ -2,9 +2,9 @@ import React from "react";
 import {StyleSheet, View, Text} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {MuseumList} from "./src/screens/MuseumList";
-import {MuseumDetails} from "./src/screens/MuseumDetails";
-import Museum from "./src/components/Museum";
+import {MuseumList} from "./src/components/MuseumList";
+import {MuseumDetails} from "./src/components/MuseumDetails";
+import Museum from "./src/screens/Museum";
 import { Home } from "./src/screens/Home";
 import { Quiz } from "./src/screens/Quiz";
 

@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, SafeAreaView, Icon, TouchableOpacity, Animated, Modal } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Icon, TouchableOpacity, Animated, Modal, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import data from '../services/QuizData'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export function Quiz() {
+export function Quiz({navigation}) {
 
     const allQuestions = data
     const [currQuestionIndex, setCurrQuestionIndex] = useState(0)
@@ -167,7 +167,7 @@ export function Quiz() {
 
   return (
     <SafeAreaView style={{flex : 1}}>
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
 
             {/* Progress Bar */}
             {renderProgressBar()}
@@ -200,10 +200,15 @@ export function Quiz() {
                         <TouchableOpacity onPress={restartQuiz} style={styles.retryContainer}>
                             <Text style={styles.textRetry}>Retry Quiz</Text>
                         </TouchableOpacity>
+
+                        {/* Back to Home btn */}
+                        <TouchableOpacity onPress={() => {navigation.navigate('Home')}} style={[styles.retryContainer, {backgroundColor: 'transparent'}] }>
+                            <Text style={[styles.textRetry, {color : '#0B5688'}]}>{'<'} Back to Home</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
-        </View>
+        </ScrollView>
     </SafeAreaView>
   )
 }
@@ -293,7 +298,7 @@ const styles = StyleSheet.create({
     },
     modalContainer : {
         flex : 1,
-        backgroundColor : '#1E90FF',
+        backgroundColor : '#3498DB7C',
         alignItems : 'center',
         justifyContent : 'center'
     },
