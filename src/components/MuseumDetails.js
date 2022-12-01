@@ -4,7 +4,7 @@ import { getMuseum } from '../services/MuseumSrevices';
 
 export function MuseumDetails({route, navigation}) {
 
-    const {museumId} = route.params;
+    const {museumId} = route.params
     const [museum, setMuseums] = useState({})
 
     useEffect(() => {

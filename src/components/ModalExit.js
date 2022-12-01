@@ -12,6 +12,11 @@ export function ModalExit(props) {
     props.setData(data)
   }
 
+  const handleExit = (bool) =>{
+    props.changeModalVisible(bool)
+    BackHandler.exitApp()
+  }
+
   return (
     <TouchableOpacity
         disabled={true}
@@ -31,7 +36,7 @@ export function ModalExit(props) {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.btn]}
-              onPress={() => {BackHandler.exitApp()}}
+              onPress={() => {handleExit(false)}}
             >
               <Text style={styles.textBtn}>Exit</Text>
             </TouchableOpacity>

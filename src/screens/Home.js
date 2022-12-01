@@ -6,6 +6,7 @@ import {ModalExit} from '../components/ModalExit'
 // import Modal  from 'react-native-modal'
 
 const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 export function Home({navigation}) {
 
@@ -18,7 +19,7 @@ export function Home({navigation}) {
   }
 
   const handleTest = () => {
-    console.log(showExitModal)
+    console.log(WIDTH +' dan ' + HEIGHT)
   }
 
   const renderMenu = () => {
@@ -90,7 +91,7 @@ export function Home({navigation}) {
       </View> */}
       <Modal
         transparent={true}
-        animationType='fade'
+        animationType='slide'
         visible = {showExitModal}
         nRequestClose={() => changeModalVisible(false)}
         style ={{justifyContent : 'center', alignItems : 'center', width : WIDTH}}

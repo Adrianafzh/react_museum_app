@@ -10,7 +10,10 @@ export function MuseumList({navigation}) {
             <Museum
                 {...museum}
                 onPress={() => {
-                    navigation.navigate('MuseumDetails', {museumId : museum.id})
+                    navigation.navigate('MuseumDetails', {
+                        museumId : museum.id,
+                        title : museum.name
+                    })
                 }}
             />
         )
